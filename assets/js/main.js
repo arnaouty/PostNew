@@ -87,30 +87,15 @@
     });
   });
 
-  // ---------- Reveal on scroll ----------
-  var revealTargets = document.querySelectorAll('.section-head, .split, .pillar, .product, .origin-card, .gallery figure, .group-sectors li, .clients li, .office, .enquiry');
-  if ('IntersectionObserver' in window) {
-    var reveal = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in');
-          reveal.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    revealTargets.forEach(function (el) {
-      el.classList.add('reveal');
-      reveal.observe(el);
-    });
-  }
-
   // ---------- Enquiry form ----------
-  // There is no server yet, so a valid enquiry opens the visitor's email app
-  // with the message pre-filled. Swap this for a form service when hosting is chosen.
+  // There is no server yet, so a valid enquiry is shown ready to send:
+  // the visitor can copy it or open it in their email app.
+  // Swap this for a form service when hosting is chosen.
   var ENQUIRY_EMAIL = 'm.ali@qm-eg.com';
   var ENQUIRY_CC = 'm.ismail@qm-eg.com';
   var form = document.getElementById('enquiry');
   var status = document.getElementById('form-status');
+  var ready = document.getElementById('enquiry-ready');
 
   if (form) {
     form.addEventListener('submit', function (e) {
@@ -129,6 +114,7 @@
       });
 
       if (firstInvalid) {
+        ready.hidden = true;
         status.className = 'form-status error';
         status.textContent = 'Please fill in company, contact name, a valid email and your message.';
         firstInvalid.focus();
@@ -148,13 +134,36 @@
         f.message.value.trim()
       ].join('\n');
 
-      window.location.href = 'mailto:' + ENQUIRY_EMAIL +
+      document.getElementById('enquiry-text').textContent = 'Subject: ' + subject + '\n\n' + body;
+      document.getElementById('enquiry-mail').href = 'mailto:' + ENQUIRY_EMAIL +
         '?cc=' + encodeURIComponent(ENQUIRY_CC) +
         '&subject=' + encodeURIComponent(subject) +
         '&body=' + encodeURIComponent(body);
 
-      status.className = 'form-status ok';
-      status.textContent = 'Thank you. Your email app should now open with the enquiry ready to send.';
+      status.className = 'form-status';
+      status.textContent = '';
+      ready.hidden = false;
+      ready.scrollIntoView({ block: 'nearest' });
+    });
+
+    document.getElementById('enquiry-copy').addEventListener('click', function () {
+      var button = this;
+      var text = document.getElementById('enquiry-text');
+      function selectText() {
+        var range = document.createRange();
+        range.selectNodeContents(text);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        button.textContent = 'Selected – press Ctrl+C';
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text.textContent).then(function () {
+          button.textContent = 'Copied';
+        }, selectText);
+      } else {
+        selectText();
+      }
     });
   }
 })();

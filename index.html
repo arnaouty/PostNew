@@ -2,7 +2,7 @@
 <html lang="en" class="no-js">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>TQM – Tri-QM for Export | Paper, Tissue, Wood Pulp &amp; Waste Paper Supply</title>
   <meta name="description" content="TQM (Tri-QM for Export), a Quality Masters Group company, supplies paper, packaging paper, tissue jumbo rolls, wood pulp and EN 643 waste paper to mills and converters. Offices in Egypt and China.">
   <meta name="color-scheme" content="light dark">
@@ -520,8 +520,16 @@
               <label for="f-message">Specifications &amp; message</label>
               <textarea id="f-message" name="message" rows="4" placeholder="Grade, gsm, roll width, packing…" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Send Enquiry</button>
+            <button type="submit" class="btn btn-primary btn-block">Prepare Enquiry</button>
             <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+            <div class="enquiry-ready" id="enquiry-ready" hidden>
+              <p>Your enquiry is ready. Send it to <strong>m.ali@qm-eg.com</strong> (cc <strong>m.ismail@qm-eg.com</strong>).</p>
+              <pre id="enquiry-text"></pre>
+              <div class="enquiry-actions">
+                <button type="button" class="btn btn-ghost" id="enquiry-copy">Copy enquiry</button>
+                <a class="btn btn-primary" id="enquiry-mail" href="mailto:m.ali@qm-eg.com">Open in email app</a>
+              </div>
+            </div>
           </form>
         </div>
       </div>

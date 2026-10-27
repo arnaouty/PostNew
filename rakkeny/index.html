@@ -97,14 +97,17 @@ p { margin: 0 0 1em; }
 .nav a:not(.btn) { color: rgba(255, 255, 255, .88); font-weight: 600; font-size: .96rem; padding: 8px 12px; border-radius: 8px; transition: color .2s, background-color .2s; }
 .nav a:not(.btn):hover { color: var(--green); }
 .header-actions { display: flex; align-items: center; gap: 10px; }
-.lang-switch { display: inline-flex; border: 1.5px solid rgba(255, 255, 255, .35); border-radius: 10px; overflow: hidden; }
-.scrolled .lang-switch { border-color: var(--line); }
-.lang-switch button {
-  background: transparent; border: 0; padding: 6px 11px; font-weight: 700; font-size: .85rem;
-  color: rgba(255, 255, 255, .8); cursor: pointer; line-height: 1.2;
+.lang-btn {
+  display: inline-flex; align-items: center; gap: 7px; cursor: pointer; white-space: nowrap;
+  background: rgba(255, 255, 255, .08); border: 1.5px solid rgba(255, 255, 255, .4); color: #fff;
+  border-radius: 10px; padding: 7px 13px; font-weight: 700; font-size: .92rem; line-height: 1.2;
+  transition: background-color .2s, border-color .2s, color .2s;
 }
-.scrolled .lang-switch button { color: var(--muted); }
-.lang-switch button[aria-pressed="true"] { background: var(--green); color: #fff !important; }
+.lang-btn:hover { background: var(--green); border-color: var(--green); color: #fff; }
+.lang-btn svg { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.scrolled .lang-btn, .site-header.menu-open .lang-btn { color: var(--teal-dark); border-color: var(--line); background: #fff; }
+.scrolled .lang-btn:hover, .site-header.menu-open .lang-btn:hover { color: #fff; background: var(--green); border-color: var(--green); }
+.footer .lang-btn { margin-top: 6px; }
 .menu-toggle { display: none; width: 44px; height: 44px; border-radius: 10px; border: 1.5px solid rgba(255, 255, 255, .35); background: transparent; cursor: pointer; padding: 0; }
 .scrolled .menu-toggle { border-color: var(--line); }
 .menu-toggle span { display: block; width: 20px; height: 2px; background: #fff; margin: 4px auto; border-radius: 2px; transition: transform .25s, opacity .2s; }
@@ -433,8 +436,6 @@ p { margin: 0 0 1em; }
   .site-header.menu-open { background: #fff; }
   .site-header.menu-open .logo { color: var(--ink); }
   .site-header.menu-open .menu-toggle span { background: var(--ink); }
-  .site-header.menu-open .lang-switch { border-color: var(--line); }
-  .site-header.menu-open .lang-switch button { color: var(--muted); }
 
   .hero-inner, .showcase, .app, .contact { grid-template-columns: 1fr; }
   .hero-visual { max-width: 560px; margin-inline: auto; width: 100%; margin-top: 20px; }
@@ -468,7 +469,7 @@ p { margin: 0 0 1em; }
   .pos { width: 150px; } .phone2 { width: 150px; }
   .form, .info-card { padding: 26px 20px; }
   .offline-box { padding: 34px 20px; }
-  .lang-switch button { padding: 6px 9px; }
+  .lang-btn { padding: 7px 10px; font-size: .86rem; }
 }
 </style>
 </head>
@@ -493,10 +494,10 @@ p { margin: 0 0 1em; }
     </nav>
 
     <div class="header-actions">
-      <div class="lang-switch" role="group" aria-label="اللغة" data-en-aria="Language">
-        <button type="button" data-lang="ar" aria-pressed="true">ع</button>
-        <button type="button" data-lang="en" aria-pressed="false">EN</button>
-      </div>
+      <button type="button" class="lang-btn" data-lang-toggle lang="en" aria-label="View this page in English">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
+        <span class="lang-label">English</span>
+      </button>
       <a href="#contact" class="btn btn-green btn-sm" data-en="Request a demo">اطلب عرضاً تجريبياً</a>
       <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="القائمة" data-en-aria="Menu">
         <span></span><span></span><span></span>
@@ -913,6 +914,10 @@ p { margin: 0 0 1em; }
         <li><span data-en="Commercial register:">السجل التجاري:</span> ٢٩٥٠٤</li>
         <li data-en="6th of October, Giza, Egypt">السادس من أكتوبر، الجيزة، مصر</li>
       </ul>
+      <button type="button" class="lang-btn" data-lang-toggle lang="en" aria-label="View this page in English">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
+        <span class="lang-label">English</span>
+      </button>
     </div>
   </div>
   <div class="container footer-bottom">
@@ -955,10 +960,19 @@ p { margin: 0 0 1em; }
     root.dir = en ? 'ltr' : 'rtl';
     document.title = META[lang].title;
     document.querySelector('meta[name="description"]').content = META[lang].desc;
-    document.querySelectorAll('[data-lang]').forEach(function (b) {
-      b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
+    // Each toggle names the other language, in that language
+    document.querySelectorAll('[data-lang-toggle]').forEach(function (b) {
+      b.setAttribute('lang', en ? 'ar' : 'en');
+      b.setAttribute('aria-label', en ? 'اعرض الصفحة بالعربية' : 'View this page in English');
+      b.querySelector('.lang-label').textContent = en ? 'العربية' : 'English';
     });
     try { localStorage.setItem('rakkeny-lang', lang); } catch (e) {}
+    // Keep the address in step so a copied link opens in the same language
+    try {
+      var url = new URL(location.href);
+      if (en) url.searchParams.set('lang', 'en'); else url.searchParams.delete('lang');
+      history.replaceState(null, '', url);
+    } catch (e) {}
   }
 
   var initial = 'ar';
@@ -970,8 +984,8 @@ p { margin: 0 0 1em; }
   }
   if (initial === 'en') setLang('en');
 
-  document.querySelectorAll('[data-lang]').forEach(function (b) {
-    b.addEventListener('click', function () { setLang(b.dataset.lang); });
+  document.querySelectorAll('[data-lang-toggle]').forEach(function (b) {
+    b.addEventListener('click', function () { setLang(root.lang === 'en' ? 'ar' : 'en'); });
   });
 
   // ---------- Header on scroll ----------

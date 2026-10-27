@@ -7,9 +7,10 @@
 <meta name="description" content="ركني نظام ذكي لإدارة الجراجات وأماكن الانتظار من الهاتف وأجهزة التذاكر، مع لوحة تحكم عن بعد ويعمل حتى عند انقطاع الإنترنت.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#075a60">
+<link rel="icon" href="img/logo-mark.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --teal: #0b7f86;
@@ -34,7 +35,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: var(--header-h); -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+  font-family: "Reem Kufi", system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
   color: var(--ink);
   background: var(--white);
   line-height: 1.75;
@@ -87,11 +88,10 @@ p { margin: 0 0 1em; }
 .header-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .logo { display: inline-flex; align-items: center; gap: 10px; color: #fff; font-weight: 900; font-size: 1.6rem; }
 .logo-mark {
-  width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--green), var(--teal));
-  color: #fff; font-family: system-ui, sans-serif; font-weight: 900; font-size: 1.35rem;
-  box-shadow: 0 6px 16px rgba(11, 127, 134, .35);
+  width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; padding: 5px;
+  background: #fff; box-shadow: 0 6px 16px rgba(5, 54, 58, .25);
 }
+.logo-mark img { width: 100%; height: auto; }
 .scrolled .logo, .scrolled .nav a:not(.btn) { color: var(--ink); }
 .nav { display: flex; align-items: center; gap: 4px; }
 .nav a:not(.btn) { color: rgba(255, 255, 255, .88); font-weight: 600; font-size: .96rem; padding: 8px 12px; border-radius: 8px; transition: color .2s, background-color .2s; }
@@ -185,7 +185,7 @@ p { margin: 0 0 1em; }
 /* Egyptian number plate (always Arabic, always RTL) */
 .plate {
   direction: rtl; display: inline-flex; flex-direction: column; border: 1.5px solid #1d2b2d; border-radius: 4px;
-  overflow: hidden; background: #fff; font-family: "Cairo", sans-serif; line-height: 1; min-width: 74px;
+  overflow: hidden; background: #fff; font-family: "Reem Kufi", sans-serif; line-height: 1; min-width: 74px;
 }
 .plate-top { background: #5aa7de; color: #fff; font-size: .48rem; font-weight: 800; display: flex; justify-content: space-between; padding: 2px 4px; }
 .plate-body { display: flex; font-weight: 800; font-size: .74rem; color: #111; }
@@ -479,7 +479,7 @@ p { margin: 0 0 1em; }
 <header class="site-header" id="header">
   <div class="container header-inner">
     <a href="#top" class="logo" aria-label="ركني" data-en-aria="Rakkeny">
-      <span class="logo-mark" aria-hidden="true">R</span>
+      <span class="logo-mark" aria-hidden="true"><img src="img/logo-mark.png" alt="" width="200" height="166"></span>
       <span data-en="Rakkeny">ركني</span>
     </a>
 
@@ -889,7 +889,7 @@ p { margin: 0 0 1em; }
 <footer class="footer">
   <div class="container footer-grid">
     <div>
-      <a href="#top" class="logo"><span class="logo-mark" aria-hidden="true">R</span><span data-en="Rakkeny">ركني</span></a>
+      <a href="#top" class="logo"><span class="logo-mark" aria-hidden="true"><img src="img/logo-mark.png" alt="" width="200" height="166"></span><span data-en="Rakkeny">ركني</span></a>
       <p data-en="A smart parking management system from Egypt, part of the Safe Smart City system.">نظام ذكي لإدارة الجراجات من مصر، ضمن منظومة المدينة الذكية الآمنة.</p>
     </div>
     <div>
